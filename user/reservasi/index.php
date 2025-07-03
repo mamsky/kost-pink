@@ -54,53 +54,26 @@
                             <td class="px-6 py-4"><?= $reservasi['tgl_masuk'] ?></td>
                             <td class="px-6 py-4">
                                 <span
-                                    class="px-2 py-1 bg-yellow-100 text-yellow-700 rounded text-xs"><?= $reservasi['status'] ?></span>
+                                    class="px-2 py-1 <?= $reservasi['status'] == 'Menunggu'? 'bg-yellow-100 text-yellow-700' : 'bg-green-100 text-green-700' ?>  rounded text-xs"><?= $reservasi['status'] == 'Menunggu'? 'Menunggu':'Terkonfirmasi' ?></span>
                             </td>
                             <td class="px-6 py-4 text-center space-x-2">
                                 <form action="" method="post"
                                     onsubmit="return confirm('Apakah Anda yakin ingin membatalkan reservasi tanggal <?php echo $reservasi['tgl_masuk'] . ' kode kamar ' . $reservasi['no_kamar']; ?>?')">
                                     <input type="hidden" name="id" value="<?= $reservasi['id']?>" />
                                     <button name="delete-reservasi"
-                                        class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 text-xs">Batalkan</button>
+                                        <?= $reservasi['status'] != 'Menunggu' ? 'disabled' : '' ?>
+                                        class="<?= $reservasi['status'] == 'Menunggu'
+                                            ? 'bg-red-500 text-white hover:bg-red-600'
+                                            : 'bg-gray-300 text-gray-600 cursor-not-allowed' ?> px-2 py-1 rounded text-xs">
+                                        <?= $reservasi['status'] == 'Menunggu' ? 'Batalkan' : 'Tidak Bisa Dibatalkan' ?>
+                                    </button>
+
                                 </form>
                             </td>
                         </tr>
                         <?php
                         }
                     ?>
-
-
-                        <!-- <tr class="hover:bg-pink-50">
-                            <td class="px-6 py-4">1</td>
-                            <td class="px-6 py-4">A1</td>
-                            <td class="px-6 py-4">AC + KM Dalam</td>
-                            <td class="px-6 py-4">1</td>
-                            <td class="px-6 py-4">03 Juli 2025</td>
-                            <td class="px-6 py-4">
-                                <span class="px-2 py-1 bg-yellow-100 text-yellow-700 rounded text-xs">Menunggu</span>
-                            </td>
-                            <td class="px-6 py-4 text-center space-x-2">
-                                <button
-                                    class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 text-xs">Batalkan</button>
-                            </td>
-                        </tr>
-                        <tr class="hover:bg-pink-50">
-                            <td class="px-6 py-4">2</td>
-                            <td class="px-6 py-4">B2</td>
-                            <td class="px-6 py-4">Non AC + KM Luar</td>
-                            <td class="px-6 py-4">2</td>
-                            <td class="px-6 py-4">01 Juli 2025</td>
-                            <td class="px-6 py-4">
-                                <span class="px-2 py-1 bg-green-100 text-green-700 rounded text-xs">Terkonfirmasi</span>
-                            </td>
-                            <td class="px-6 py-4 text-center space-x-2">
-                                <button class="bg-gray-300 text-gray-600 px-2 py-1 rounded text-xs cursor-not-allowed"
-                                    disabled>
-                                    Tidak Bisa Dibatalkan
-                                </button>
-                            </td>
-                        </tr> -->
-                        <!-- Tambah reservasi lainnya di sini -->
                     </tbody>
                 </table>
             </div>

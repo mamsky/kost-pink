@@ -1,3 +1,27 @@
+<?php
+   require '../../config/db.php';
+if(isset($_POST['konfirmasi'])){
+    $id = $_POST['id'];
+    $sql = $conn->query("UPDATE reservasi SET status='Terkonfirmasi' WHERE id = '$id'");
+    if($sql){
+         echo "<script>alert('Reservasi Terkonfirmasi');</script>";
+    }else{
+         echo "<script>alert('Gagal Mengonfirmasi');</script>";
+    }
+}
+
+if(isset($_POST['batalkan'])){
+    $id = $_POST['id'];
+    $sql = $conn->query("DELETE FROM reservasi WHERE id='$id'");
+    if($sql){
+         echo "<script>alert('Reservasi Dibatalkan');</script>";
+    }else{
+         echo "<script>alert('Gagal Dibatalkan');</script>";
+    }
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -41,40 +65,65 @@
                     </thead>
                     <tbody class="divide-y divide-pink-100 text-sm">
                         <!-- Row 1 -->
-                        <tr class="hover:bg-pink-50">
-                            <td class="px-6 py-4">1</td>
-                            <td class="px-6 py-4">Sarah Oktavia</td>
-                            <td class="px-6 py-4">sarah@mail.com</td>
-                            <td class="px-6 py-4">A1</td>
-                            <td class="px-6 py-4">03 Juli 2025</td>
-                            <td class="px-6 py-4">
-                                <span class="px-2 py-1 bg-yellow-100 text-yellow-700 rounded text-xs">Menunggu</span>
-                            </td>
-                            <td class="px-6 py-4 text-center space-x-2">
-                                <button
-                                    class="bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600 text-xs">Konfirmasi</button>
-                                <button
-                                    class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 text-xs">Batalkan</button>
-                            </td>
-                        </tr>
+                        <?php 
+                            $no = 1;
+                            $getData = $conn->query("
+                                SELECT 
+                                    reservasi.id as idR, 
+                                    reservasi.tgl_masuk, 
+                                    reservasi.id_user, 
+                                    reservasi.id_kamar,
+                                    reservasi.status, 
+                                    auth.name, 
+                                    auth.email,
+                                    kamar.no_kamar 
+                                FROM reservasi 
+                                LEFT JOIN auth ON reservasi.id_user = auth.id 
+                                LEFT JOIN kamar ON kamar.id = reservasi.id_kamar
+                            ");
 
-                        <!-- Row 2 -->
+                            while ($row = $getData->fetch_assoc()) {
+                                ?>
                         <tr class="hover:bg-pink-50">
-                            <td class="px-6 py-4">2</td>
-                            <td class="px-6 py-4">Dewi Rahma</td>
-                            <td class="px-6 py-4">dewi@mail.com</td>
-                            <td class="px-6 py-4">B2</td>
-                            <td class="px-6 py-4">01 Juli 2025</td>
+                            <td class="px-6 py-4"><?= $no++ ?></td>
+                            <td class="px-6 py-4"><?= htmlspecialchars($row['name']) ?></td>
+                            <td class="px-6 py-4"><?= htmlspecialchars($row['email']) ?></td>
+                            <td class="px-6 py-4"><?= htmlspecialchars($row['no_kamar']) ?></td>
+                            <td class="px-6 py-4"><?= htmlspecialchars($row['tgl_masuk']) ?></td>
                             <td class="px-6 py-4">
-                                <span class="px-2 py-1 bg-green-100 text-green-700 rounded text-xs">Terkonfirmasi</span>
+                                <span
+                                    class="px-2 py-1 bg-yellow-100 text-yellow-700 rounded text-xs"><?= htmlspecialchars($row['status']) ?></span>
                             </td>
-                            <td class="px-6 py-4 text-center space-x-2">
-                                <button
-                                    class="bg-yellow-400 text-white px-2 py-1 rounded hover:bg-yellow-500 text-xs">Ubah</button>
-                                <button
-                                    class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 text-xs">Hapus</button>
+                            <td class="px-6 py-4 text-center flex gap-2 justify-center">
+                                <?php
+                                if($row['status'] != 'Terkonfirmasi' ){
+                                    ?>
+                                <form action="" method="post"
+                                    onsubmit="return confirm('Apakah anda ingin mengonfirmasi reservasi?')">
+                                    <input type="hidden" name="id" value="<?= $row['idR'] ?>">
+                                    <button name="konfirmasi"
+                                        class="bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600 text-xs">Konfirmasi</button>
+                                </form>
+                                <?php 
+                                }else{
+                                    ?>
+                                <button disabled
+                                    class="bg-slate-200 text-slate-700 px-2 py-1 rounded text-xs">Terkonfirmasi</button>
+                                <?php
+                                }
+                                    
+                                ?>
+                                <form action="" onsubmit="return confirm('Apakah anda ingin mebatalkan reservasi?')">
+                                    <input type="hidden" name="id" value="<?= $row['idR'] ?>">
+                                    <button name="batalkan"
+                                        class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 text-xs">Batalkan</button>
+                                </form>
                             </td>
                         </tr>
+                        <?php
+                            }
+                            ?>
+
 
                         <!-- Tambah data lainnya di sini -->
                     </tbody>
