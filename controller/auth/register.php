@@ -8,6 +8,19 @@ if (isset($_POST['register'])) {
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
     $role = 'user';
 
+    // Format tanggal daftar seperti "12 Januari 2024" secara manual
+    $bulanIndo = [
+        '01' => 'Januari', '02' => 'Februari', '03' => 'Maret', '04' => 'April',
+        '05' => 'Mei', '06' => 'Juni', '07' => 'Juli', '08' => 'Agustus',
+        '09' => 'September', '10' => 'Oktober', '11' => 'November', '12' => 'Desember'
+    ];
+
+    $tanggal = new DateTime(); // sekarang
+    $tgl = $tanggal->format('d');
+    $bln = $tanggal->format('m');
+    $thn = $tanggal->format('Y');
+    $tgl_daftar = "$tgl " . $bulanIndo[$bln] . " $thn";
+
     // Cek apakah email sudah digunakan
     $check = $conn->query("SELECT * FROM auth WHERE email = '$email'");
     if ($check->num_rows > 0) {
@@ -17,7 +30,7 @@ if (isset($_POST['register'])) {
             </script>";
     
     } else {
-        $sql = $conn->query("INSERT INTO auth (name, email, telp, password, role) VALUES ('$nama', '$email', '$phone', '$password', '$role')");
+        $sql = $conn->query("INSERT INTO auth (name, email, telp, password, role, tgl_daftar) VALUES ('$nama', '$email', '$phone', '$password', '$role', '$tgl_daftar')");
         if ($sql) {
             echo "<script>
                 alert('Pendaftaran berhasil! Silakan Login');

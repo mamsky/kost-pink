@@ -1,3 +1,7 @@
+<?php
+    session_start();
+    require '../../config/db.php'
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -35,7 +39,38 @@
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-pink-100 text-sm">
+
+                        <?php 
+                        $no = 1;
+                        $id_user = $_SESSION['user']['id'];
+                        $getData = $conn->query("SELECT reservasi.id, reservasi.status as status, reservasi.tgl_masuk, kamar.no_kamar, kamar.tipe, kamar.lantai  FROM reservasi RIGHT JOIN kamar ON reservasi.id_kamar = kamar.id");
+                        while($reservasi = $getData->fetch_assoc()){
+                            ?>
                         <tr class="hover:bg-pink-50">
+                            <td class="px-6 py-4"><?= $no++ ?></td>
+                            <td class="px-6 py-4"><?= $reservasi['no_kamar'] ?></td>
+                            <td class="px-6 py-4"><?= $reservasi['tipe'] ?></td>
+                            <td class="px-6 py-4"><?= $reservasi['lantai'] ?></td>
+                            <td class="px-6 py-4"><?= $reservasi['tgl_masuk'] ?></td>
+                            <td class="px-6 py-4">
+                                <span
+                                    class="px-2 py-1 bg-yellow-100 text-yellow-700 rounded text-xs"><?= $reservasi['status'] ?></span>
+                            </td>
+                            <td class="px-6 py-4 text-center space-x-2">
+                                <form action="" method="post"
+                                    onsubmit="return confirm('Apakah Anda yakin ingin membatalkan reservasi tanggal <?php echo $reservasi['tgl_masuk'] . ' kode kamar ' . $reservasi['no_kamar']; ?>?')">
+                                    <input type="hidden" name="id" value="<?= $reservasi['id']?>" />
+                                    <button name="delete-reservasi"
+                                        class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 text-xs">Batalkan</button>
+                                </form>
+                            </td>
+                        </tr>
+                        <?php
+                        }
+                    ?>
+
+
+                        <!-- <tr class="hover:bg-pink-50">
                             <td class="px-6 py-4">1</td>
                             <td class="px-6 py-4">A1</td>
                             <td class="px-6 py-4">AC + KM Dalam</td>
@@ -64,7 +99,7 @@
                                     Tidak Bisa Dibatalkan
                                 </button>
                             </td>
-                        </tr>
+                        </tr> -->
                         <!-- Tambah reservasi lainnya di sini -->
                     </tbody>
                 </table>

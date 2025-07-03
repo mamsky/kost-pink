@@ -1,3 +1,6 @@
+<?php
+    session_start()
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -22,32 +25,29 @@
             <div class="bg-white shadow-md rounded-lg p-6 max-w-2xl mx-auto space-y-4">
                 <div>
                     <p class="font-semibold">Nama Lengkap:</p>
-                    <p class="text-sm text-gray-600">Andi Santoso</p>
+                    <p class="text-sm text-gray-600"><?= $_SESSION['user']['nama'] ?></p>
                 </div>
                 <div>
                     <p class="font-semibold">Email:</p>
-                    <p class="text-sm text-gray-600">andi@email.com</p>
+                    <p class="text-sm text-gray-600"><?= $_SESSION['user']['email'] ?></p>
                 </div>
                 <div>
                     <p class="font-semibold">No. HP:</p>
-                    <p class="text-sm text-gray-600">0812-3456-7890</p>
+                    <p class="text-sm text-gray-600"><?= $_SESSION['user']['telp'] ?></p>
                 </div>
                 <div>
                     <p class="font-semibold">Tanggal Daftar:</p>
-                    <p class="text-sm text-gray-600">12 Januari 2024</p>
-                </div>
-                <div>
-                    <p class="font-semibold">Kamar:</p>
-                    <p class="text-sm text-gray-600">Kamar B2 - Lantai 2</p>
+                    <p class="text-sm text-gray-600"><?= $_SESSION['user']['tgl_daftar'] ?></p>
                 </div>
 
                 <div class="flex gap-4 pt-4">
-                    <button class="bg-pink-500 hover:bg-pink-600 text-white text-sm px-4 py-2 rounded">Edit
-                        Profil</button>
-                    <button
+                    <a href="./edit-profile.php"
+                        class="bg-pink-500 hover:bg-pink-600 text-white text-sm px-4 py-2 rounded">Edit
+                        Profil</a>
+                    <a href="./edit-password.php"
                         class="bg-white border border-pink-500 text-pink-600 hover:bg-pink-100 text-sm px-4 py-2 rounded">
                         Ubah Password
-                    </button>
+                    </a>
                 </div>
             </div>
         </main>

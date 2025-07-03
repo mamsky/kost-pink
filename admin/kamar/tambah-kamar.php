@@ -46,9 +46,9 @@
                 <label class="block mb-1 font-medium">Lantai</label>
                 <select name="lantai" required class="w-full border border-pink-300 rounded px-3 py-2">
                     <option value="">-- Pilih Lantai --</option>
-                    <option value="1">Lantai 1</option>
-                    <option value="2">Lantai 2</option>
-                    <option value="3">Lantai 3</option>
+                    <option value="Lantai 1">Lantai 1</option>
+                    <option value="Lantai 2">Lantai 2</option>
+                    <option value="Lantai 3">Lantai 3</option>
                 </select>
             </div>
 

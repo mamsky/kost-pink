@@ -26,7 +26,7 @@
         <main class="flex-1 p-6 bg-white">
             <!-- Welcome -->
             <div class="mb-6">
-                <h1 class="text-2xl font-bold text-pink-700">Hai, Sarah! 👋</h1>
+                <h1 class="text-2xl font-bold text-pink-700">Hai, <?= $_SESSION['user']['nama'] ?>! 👋</h1>
                 <p class="text-sm text-gray-500">Selamat datang di dashboard kost kamu 💖</p>
             </div>
 
@@ -52,10 +52,10 @@
                 <div class="bg-pink-50 border border-pink-100 rounded-lg p-4 shadow">
                     <h3 class="text-pink-700 font-semibold mb-3">👩 Informasi Pengguna</h3>
                     <ul class="text-sm space-y-2">
-                        <li><strong>Nama:</strong> Sarah Oktavia</li>
-                        <li><strong>Email:</strong> sarah@example.com</li>
-                        <li><strong>No. HP:</strong> 0812-3456-7890</li>
-                        <li><strong>Tanggal Masuk:</strong> 01 Juli 2025</li>
+                        <li><strong>Nama:</strong> <?= $_SESSION['user']['nama'] ?></li>
+                        <li><strong>Email:</strong> <?= $_SESSION['user']['email'] ?></li>
+                        <li><strong>No. HP:</strong> <?= $_SESSION['user']['telp'] ?></li>
+                        <li><strong>Tanggal Masuk:</strong> <?= $_SESSION['user']['tgl_daftar'] ?></li>
                     </ul>
                 </div>
 

@@ -16,6 +16,8 @@ if (isset($_POST['login'])) {
                 'id' => $user['id'],
                 'nama' => $user['name'],
                 'email' => $user['email'],
+                'telp' => $user['telp'],
+                'tgl_daftar' => $user['tgl_daftar'],
                 'role' => $user['role']
             ];
 
