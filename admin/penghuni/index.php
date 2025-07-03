@@ -22,9 +22,10 @@
         <main class="flex-1 p-6 bg-white">
             <div class="flex justify-between items-center mb-6">
                 <h1 class="text-2xl font-bold text-pink-700">Data Penghuni</h1>
-                <button class="bg-pink-500 text-white px-4 py-2 rounded hover:bg-pink-600 text-sm">
+                <a href="./tambah-penghuni.php"
+                    class="bg-pink-500 text-white px-4 py-2 rounded hover:bg-pink-600 text-sm">
                     + Tambah Penghuni
-                </button>
+                </a>
             </div>
 
             <!-- Table -->

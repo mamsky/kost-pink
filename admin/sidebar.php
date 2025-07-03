@@ -27,7 +27,7 @@
             Reservasi</a>
 
         <a href="/hotel/admin/kamar/"
-            class="block font-medium hover:text-pink-600 <?= $isReservasi ? 'text-pink-600 font-bold' : '' ?>">🏢
+            class="block font-medium hover:text-pink-600 <?= $isKamar ? 'text-pink-600 font-bold' : '' ?>">🏢
             Kamar</a>
         <a href="/hotel/admin/pengaturan/"
             class="block font-medium hover:text-pink-600 <?= $isPengaturan ? 'text-pink-600 font-bold' : '' ?>">⚙️

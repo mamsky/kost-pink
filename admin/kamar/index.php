@@ -21,9 +21,9 @@
             <!-- Header -->
             <div class="flex justify-between items-center mb-6">
                 <h1 class="text-2xl font-bold text-pink-700">Data Kamar</h1>
-                <button class="bg-pink-500 text-white px-4 py-2 rounded hover:bg-pink-600 text-sm">
+                <a href="./tambah-kamar.php" class="bg-pink-500 text-white px-4 py-2 rounded hover:bg-pink-600 text-sm">
                     + Tambah Kamar
-                </button>
+                </a>
             </div>
 
             <!-- Table -->
@@ -36,46 +36,51 @@
                             <th class="px-6 py-3">Tipe</th>
                             <th class="px-6 py-3">Lantai</th>
                             <th class="px-6 py-3">Harga/Bulan</th>
+                            <th class="px-6 py-3">Foto</th>
                             <th class="px-6 py-3">Status</th>
                             <th class="px-6 py-3 text-center">Aksi</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-pink-100 text-sm">
                         <!-- Row 1 -->
+                        <?php 
+                            require '../../config/db.php';
+                            $sql = "SELECT * FROM kamar";
+                            $getData = $conn->query($sql);
+                            if($getData->num_rows == 0){
+                               ?>
+                        <tr class="hover:bg-pink-50">
+                            <td class="px-6 py-4" colspan="8">Mohon input data kamar..</td>
+                        </tr>
+                        <?php
+                            }else{
+                          while($row = $getData->fetch_assoc()){
+                                ?>
                         <tr class="hover:bg-pink-50">
                             <td class="px-6 py-4">1</td>
-                            <td class="px-6 py-4">A1</td>
-                            <td class="px-6 py-4">AC + KM Dalam</td>
-                            <td class="px-6 py-4">1</td>
-                            <td class="px-6 py-4">Rp 600.000</td>
+                            <td class="px-6 py-4"><?= $row['no_kamar'] ?></td>
+                            <td class="px-6 py-4"><?= $row['tipe'] ?></td>
+                            <td class="px-6 py-4"><?= $row['lantai'] ?></td>
+                            <td class="px-6 py-4">Rp <?= number_format($row['harga'], 0, ",", ".") ?></td>
+                            <td class="px-6 py-4"><img src="../../temp/<?= $row['foto'] ?>"
+                                    alt="<?= $row['no_kamar'] ?>" class="max-w-10 max-h-10"></td>
                             <td class="px-6 py-4">
-                                <span class="px-2 py-1 bg-red-100 text-red-600 rounded text-xs">Terisi</span>
+                                <span
+                                    class="px-2 py-1 rounded text-xs <?= $row['status'] == 'tersedia'? 'bg-green-100 text-green-600': 'bg-red-100 text-red-600'?>"><?= $row['status'] ?></span>
                             </td>
                             <td class="px-6 py-4 text-center space-x-2">
-                                <button
-                                    class="bg-yellow-400 text-white px-2 py-1 rounded hover:bg-yellow-500 text-xs">Edit</button>
-                                <button
-                                    class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 text-xs">Hapus</button>
+                                <a href="./edit-kamar.php?id=<?= $row['id']?>"
+                                    class="bg-yellow-400 text-white px-2 py-1 rounded hover:bg-yellow-500 text-xs">Edit</a>
+                                <a href="../../controller/admin/delete_kamar.php?id=<?= $row['id']?>"
+                                    onclick="return confirm('Yakin ingin menghapus kamar <?= $row['no_kamar'] ?>?')"
+                                    class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 text-xs">Hapus</a>
                             </td>
                         </tr>
-
-                        <!-- Row 2 -->
-                        <tr class="hover:bg-pink-50">
-                            <td class="px-6 py-4">2</td>
-                            <td class="px-6 py-4">B2</td>
-                            <td class="px-6 py-4">Non AC + KM Luar</td>
-                            <td class="px-6 py-4">2</td>
-                            <td class="px-6 py-4">Rp 450.000</td>
-                            <td class="px-6 py-4">
-                                <span class="px-2 py-1 bg-green-100 text-green-700 rounded text-xs">Tersedia</span>
-                            </td>
-                            <td class="px-6 py-4 text-center space-x-2">
-                                <button
-                                    class="bg-yellow-400 text-white px-2 py-1 rounded hover:bg-yellow-500 text-xs">Edit</button>
-                                <button
-                                    class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 text-xs">Hapus</button>
-                            </td>
-                        </tr>
+                        <?php
+                            }
+                            }
+  
+                         ?>
 
                         <!-- Tambah data kamar lainnya di sini -->
                     </tbody>
