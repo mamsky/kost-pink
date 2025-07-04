@@ -1,6 +1,10 @@
 <?php
+    require '../config/db.php';
     require '../config/auth.php';
     require_admin();
+    $PR = $conn->query("SELECT SUM(reservasi.status = 'Terkonfirmasi') AS penghuni, SUM(reservasi.status = 'Belum Terkonfirmasi') as reservasi, SUM(kamar.status = 'tersedia') FROM reservasi INNER JOIN kamar ON reservasi.id_kamar = kamar.id")->fetch_assoc();
+    $pendapatan = $conn->query("SELECT SUM(tagihan) as pendapatan FROM tagihan WHERE status='lunas' && MONTH(STR_TO_DATE(bulan, '%d-%m-%Y')) = MONTH(CURRENT_DATE())")->fetch_assoc();
+    $kamar = $conn->query("SELECT SUM(kamar.status = 'tersedia') as tersedia FROM kamar")->fetch_assoc();
 ?>
 
 <!DOCTYPE html>
@@ -34,19 +38,20 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                 <div class="bg-pink-100 p-4 rounded-lg shadow">
                     <h3 class="text-lg font-semibold text-pink-800">Total Penghuni</h3>
-                    <p class="text-2xl font-bold mt-2">24</p>
+                    <p class="text-2xl font-bold mt-2"><?= $PR['penghuni'] ?></p>
                 </div>
                 <div class="bg-pink-100 p-4 rounded-lg shadow">
                     <h3 class="text-lg font-semibold text-pink-800">Reservasi Hari Ini</h3>
-                    <p class="text-2xl font-bold mt-2">5</p>
+                    <p class="text-2xl font-bold mt-2"><?= $PR['reservasi'] ?></p>
                 </div>
                 <div class="bg-pink-100 p-4 rounded-lg shadow">
                     <h3 class="text-lg font-semibold text-pink-800">Pendapatan Bulan Ini</h3>
-                    <p class="text-2xl font-bold mt-2">Rp 12.000.000</p>
+                    <p class="text-2xl font-bold mt-2">Rp <?= number_format($pendapatan['pendapatan'], 0, ",", ".") ?>
+                    </p>
                 </div>
                 <div class="bg-pink-100 p-4 rounded-lg shadow">
                     <h3 class="text-lg font-semibold text-pink-800">Kamar Tersedia</h3>
-                    <p class="text-2xl font-bold mt-2">6</p>
+                    <p class="text-2xl font-bold mt-2"><?= $kamar['tersedia'] ?></p>
                 </div>
             </div>
 

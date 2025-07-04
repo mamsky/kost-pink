@@ -1,6 +1,11 @@
 <?php
+    require '../config/db.php';
     require '../config/auth.php';
     require_user();
+    // SELECT reservasi.status, kamar.*, tagihan.tagihan FROM reservasi LEFT JOIN kamar ON reservasi.id_kamar = kamar.id LEFT JOIN tagihan ON reservasi.id_user=tagihan.id_user WHERE MONTH(STR_TO_DATE(bulan, '%d-%m-%Y')) = MONTH(CURRENT_DATE()) && reservasi.id_user = 2
+    $user_id = $_SESSION['user']['id'];
+    $data = $conn->query("SELECT reservasi.status as rs, kamar.*, tagihan.tagihan FROM reservasi LEFT JOIN kamar ON reservasi.id_kamar = kamar.id LEFT JOIN tagihan ON reservasi.id_user=tagihan.id_user WHERE MONTH(STR_TO_DATE(bulan, '%d-%m-%Y')) = MONTH(CURRENT_DATE()) && reservasi.id_user = $user_id")->fetch_assoc();
+    $tagihan = $data['tagihan'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -34,15 +39,17 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
                 <div class="bg-pink-100 p-4 rounded-lg shadow text-center">
                     <p class="text-sm text-pink-700 font-medium">Status Reservasi</p>
-                    <p class="text-xl font-bold mt-2 text-green-600">Aktif</p>
+                    <p
+                        class="text-xl font-bold mt-2 <?= $data['rs'] == 'Terkonfirmasi' ? 'text-green-600':' text-red-600' ?>">
+                        <?= $data['rs'] == 'Terkonfirmasi' ? 'Aktif':' Tidak Aktif' ?></p>
                 </div>
                 <div class="bg-pink-100 p-4 rounded-lg shadow text-center">
                     <p class="text-sm text-pink-700 font-medium">Nomor Kamar</p>
-                    <p class="text-xl font-bold mt-2">B2</p>
+                    <p class="text-xl font-bold mt-2"><?= $data['no_kamar']?></p>
                 </div>
                 <div class="bg-pink-100 p-4 rounded-lg shadow text-center">
                     <p class="text-sm text-pink-700 font-medium">Tagihan Bulan Ini</p>
-                    <p class="text-xl font-bold mt-2">Rp 500.000</p>
+                    <p class="text-xl font-bold mt-2">Rp <?= number_format("$tagihan", 0, ",", ".") ?></p>
                 </div>
             </div>
 
@@ -63,10 +70,10 @@
                 <div class="bg-pink-50 border border-pink-100 rounded-lg p-4 shadow">
                     <h3 class="text-pink-700 font-semibold mb-3">🏢 Informasi Kamar</h3>
                     <ul class="text-sm space-y-2">
-                        <li><strong>Tipe:</strong> Kamar AC + KM Dalam</li>
-                        <li><strong>Lantai:</strong> 2</li>
-                        <li><strong>Status:</strong> Terisi</li>
-                        <li><strong>Harga/Bulan:</strong> Rp 500.000</li>
+                        <li><strong>Tipe:</strong> <?= $data['tipe']?></li>
+                        <li><strong>Lantai:</strong> <?= $data['lantai']?></li>
+                        <li><strong>Status:</strong> <?= $data['status']?></li>
+                        <li><strong>Harga/Bulan:</strong> Rp <?= number_format("$tagihan", 0, ",", ".") ?></li>
                     </ul>
                 </div>
             </div>

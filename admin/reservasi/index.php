@@ -1,14 +1,14 @@
 <?php
    require '../../config/db.php';
-if(isset($_POST['konfirmasi'])){
-    $id = $_POST['id'];
-    $sql = $conn->query("UPDATE reservasi SET status='Terkonfirmasi' WHERE id = '$id'");
-    if($sql){
-         echo "<script>alert('Reservasi Terkonfirmasi');</script>";
-    }else{
-         echo "<script>alert('Gagal Mengonfirmasi');</script>";
+    if(isset($_POST['konfirmasi'])){
+        $id = $_POST['id'];
+        $sql = $conn->query("UPDATE reservasi SET status='Terkonfirmasi' WHERE id = '$id'");
+        if($sql){
+            echo "<script>alert('Reservasi Terkonfirmasi');</script>";
+        }else{
+            echo "<script>alert('Gagal Mengonfirmasi');</script>";
+        }
     }
-}
 
 if(isset($_POST['batalkan'])){
     $id = $_POST['id'];
@@ -76,7 +76,8 @@ if(isset($_POST['batalkan'])){
                                     reservasi.status, 
                                     auth.name, 
                                     auth.email,
-                                    kamar.no_kamar 
+                                    kamar.no_kamar,
+                                    kamar.harga
                                 FROM reservasi 
                                 LEFT JOIN auth ON reservasi.id_user = auth.id 
                                 LEFT JOIN kamar ON kamar.id = reservasi.id_kamar
@@ -92,18 +93,14 @@ if(isset($_POST['batalkan'])){
                             <td class="px-6 py-4"><?= htmlspecialchars($row['tgl_masuk']) ?></td>
                             <td class="px-6 py-4">
                                 <span
-                                    class="px-2 py-1 bg-yellow-100 text-yellow-700 rounded text-xs"><?= htmlspecialchars($row['status']) ?></span>
+                                    class="px-2 py-1 <?= $row['status'] == 'Menunggu'? 'bg-yellow-100 text-yellow-700' : 'bg-green-100 text-green-700' ?>  rounded text-xs"><?= $row['status'] == 'Menunggu'? 'Menunggu':'Terkonfirmasi' ?></span>
                             </td>
                             <td class="px-6 py-4 text-center flex gap-2 justify-center">
                                 <?php
                                 if($row['status'] != 'Terkonfirmasi' ){
                                     ?>
-                                <form action="" method="post"
-                                    onsubmit="return confirm('Apakah anda ingin mengonfirmasi reservasi?')">
-                                    <input type="hidden" name="id" value="<?= $row['idR'] ?>">
-                                    <button name="konfirmasi"
-                                        class="bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600 text-xs">Konfirmasi</button>
-                                </form>
+                                <a href="./reservasi_kamar.php?id=<?php echo $row['idR']?>&id_user=<?= $row['id_user'] ?>&harga=<?= $row['harga'] ?>&id_kamar=<?= $row['id_kamar'] ?>"
+                                    class="bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600 text-xs">Konfirmasi</a>
                                 <?php 
                                 }else{
                                     ?>

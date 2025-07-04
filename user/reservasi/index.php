@@ -1,6 +1,21 @@
 <?php
     session_start();
-    require '../../config/db.php'
+    require '../../config/db.php';
+    
+    if(isset($_POST['delete-reservasi'])){
+        $id = $_POST['id'];
+        $queryDelete = $conn->query("DELETE FROM reservasi WHERE id ='$id'");
+        if($queryDelete){
+             echo "<script>
+                    alert('Berhasil Dihapus!!.');
+                </script>";
+        }else{
+             echo "<script>
+                    alert('Gagal Dihapus.');
+                </script>";
+        }
+    }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -43,8 +58,15 @@
                         <?php 
                         $no = 1;
                         $id_user = $_SESSION['user']['id'];
-                        $getData = $conn->query("SELECT reservasi.id, reservasi.status as status, reservasi.tgl_masuk, kamar.no_kamar, kamar.tipe, kamar.lantai  FROM reservasi RIGHT JOIN kamar ON reservasi.id_kamar = kamar.id");
-                        while($reservasi = $getData->fetch_assoc()){
+                        $getData = $conn->query("SELECT reservasi.id, reservasi.status as status, reservasi.tgl_masuk, kamar.no_kamar, kamar.tipe, kamar.lantai  FROM reservasi LEFT JOIN kamar ON reservasi.id_kamar = kamar.id GROUP BY id_user = $id_user");
+                        if($getData->num_rows == 0){
+                            ?>
+                        <tr class="hover:bg-pink-50">
+                            <td class="px-6 py-4">Tidak Ada reservasi</td>
+                        </tr>
+                        <?php
+                        }else{
+                             while($reservasi = $getData->fetch_assoc()){
                             ?>
                         <tr class="hover:bg-pink-50">
                             <td class="px-6 py-4"><?= $no++ ?></td>
@@ -57,7 +79,7 @@
                                     class="px-2 py-1 <?= $reservasi['status'] == 'Menunggu'? 'bg-yellow-100 text-yellow-700' : 'bg-green-100 text-green-700' ?>  rounded text-xs"><?= $reservasi['status'] == 'Menunggu'? 'Menunggu':'Terkonfirmasi' ?></span>
                             </td>
                             <td class="px-6 py-4 text-center space-x-2">
-                                <form action="" method="post"
+                                <form action="" method="POST"
                                     onsubmit="return confirm('Apakah Anda yakin ingin membatalkan reservasi tanggal <?php echo $reservasi['tgl_masuk'] . ' kode kamar ' . $reservasi['no_kamar']; ?>?')">
                                     <input type="hidden" name="id" value="<?= $reservasi['id']?>" />
                                     <button name="delete-reservasi"
@@ -73,6 +95,9 @@
                         </tr>
                         <?php
                         }
+
+                        }
+                       
                     ?>
                     </tbody>
                 </table>

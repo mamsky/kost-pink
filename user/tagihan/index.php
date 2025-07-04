@@ -1,3 +1,16 @@
+<?php 
+    session_start();
+    require '../../config/db.php';
+    function bulanIndo($bulan) {
+    $nama_bulan = [
+        1 => 'Januari', 2 => 'Februari', 3 => 'Maret',
+        4 => 'April', 5 => 'Mei', 6 => 'Juni',
+        7 => 'Juli', 8 => 'Agustus', 9 => 'September',
+        10 => 'Oktober', 11 => 'November', 12 => 'Desember'
+    ];
+    return $nama_bulan[(int)$bulan];
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -32,21 +45,66 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- Tagihan 1 -->
+
+                        <?php
+                            $idUser = $_SESSION['user']['id'];
+                            $getData = $conn->query("SELECT * FROM tagihan WHERE id_user = $idUser ");
+                            while($row = $getData->fetch_assoc()){
+                                ?>
                         <tr class="border-b hover:bg-pink-50">
+                            <td class="p-4">
+                                <?=date('', strtotime($row['bulan'])) . ' ' . bulanIndo(date('n', strtotime($row['bulan']))) . ' ' . date('Y', strtotime($row['bulan'])) ?>
+                            </td>
+                            <td class="p-4">Rp <?php
+                             $d =$row['tagihan']; 
+                            echo number_format("$d", 0, ",", ".") 
+                            ?></td>
+                            <td
+                                class="p-4 <?= $row['status']=='lunas'? 'text-green-600':'text-yellow-600' ?> font-semibold">
+                                <?= $row['status'] ?></td>
+                            <td class="p-4">
+                                <?=date('d', strtotime($row['jatuh_tempo'])) . ' ' . bulanIndo(date('n', strtotime($row['jatuh_tempo']))) . ' ' . date('Y', strtotime($row['jatuh_tempo'])) ?>
+                            </td>
+                            <?php
+                                if($row['status']=='lunas'){
+                                        ?>
+                            <td class="p-4 text-center">
+                                <span class="text-sm text-gray-400 italic">✔ Sudah Dibayar</span>
+                            </td>
+                            <?php
+                                }else{
+                                    ?>
+                            <td class="p-4 text-center">
+                                <a href="./bayar.php"
+                                    class="bg-pink-500 text-white px-3 py-1 rounded hover:bg-pink-600 text-xs">
+                                    Bayar Sekarang
+                                </a>
+                            </td>
+                            <?php
+                                }
+                            
+                            ?>
+
+                        </tr>
+                        <?php
+                            }
+                        ?>
+                        <!-- Tagihan 1 -->
+                        <!-- <tr class="border-b hover:bg-pink-50">
                             <td class="p-4">Juli 2025</td>
                             <td class="p-4">Rp 600.000</td>
                             <td class="p-4 text-yellow-600 font-semibold">Belum Lunas</td>
                             <td class="p-4">05 Juli 2025</td>
                             <td class="p-4 text-center">
-                                <button class="bg-pink-500 text-white px-3 py-1 rounded hover:bg-pink-600 text-xs">
+                                <a href="./bayar.php"
+                                    class="bg-pink-500 text-white px-3 py-1 rounded hover:bg-pink-600 text-xs">
                                     Bayar Sekarang
-                                </button>
+                                </a>
                             </td>
-                        </tr>
+                        </tr> -->
 
                         <!-- Tagihan 2 -->
-                        <tr class="border-b hover:bg-pink-50">
+                        <!-- <tr class="border-b hover:bg-pink-50">
                             <td class="p-4">Juni 2025</td>
                             <td class="p-4">Rp 600.000</td>
                             <td class="p-4 text-green-600 font-semibold">Lunas</td>
@@ -54,10 +112,10 @@
                             <td class="p-4 text-center">
                                 <span class="text-sm text-gray-400 italic">✔ Sudah Dibayar</span>
                             </td>
-                        </tr>
+                        </tr> -->
 
                         <!-- Tagihan 3 -->
-                        <tr class="hover:bg-pink-50">
+                        <!-- <tr class="hover:bg-pink-50">
                             <td class="p-4">Mei 2025</td>
                             <td class="p-4">Rp 600.000</td>
                             <td class="p-4 text-green-600 font-semibold">Lunas</td>
@@ -65,7 +123,7 @@
                             <td class="p-4 text-center">
                                 <span class="text-sm text-gray-400 italic">✔ Sudah Dibayar</span>
                             </td>
-                        </tr>
+                        </tr> -->
                     </tbody>
                 </table>
             </div>

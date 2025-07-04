@@ -265,31 +265,19 @@
         </div>
     </section>
 
-    <!-- Testimonials -->
-    <section class="py-10 bg-pink-100">
-        <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-center gap-10 px-4 text-center text-sm">
-            <div>
-                <img src="https://randomuser.me/api/portraits/men/1.jpg" class="mx-auto w-20 h-20 rounded-full mb-2"
-                    alt="Testimonial">
-                <p class="font-semibold">John Deo</p>
-                <p class="text-pink-700">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-            </div>
-            <div>
-                <img src="https://randomuser.me/api/portraits/women/1.jpg" class="mx-auto w-20 h-20 rounded-full mb-2"
-                    alt="Testimonial">
-                <p class="font-semibold">Jane Doe</p>
-                <p class="text-pink-700">Voluptates blanditiis optio dignissimos eaque aliquid explicabo.</p>
-            </div>
-        </div>
-    </section>
-
     <!-- Footer -->
     <footer class="bg-pink-200 py-8 text-sm">
-        <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 px-4 text-pink-800">
+        <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 px-4 text-pink-800">
+            <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-center gap-10 px-4 text-center text-sm">
+                <div>
+                    <img src="./assets/images/mutia.png" class="mx-auto w-16 h-16 rounded-full mb-2" alt="Testimonial">
+                    <p class="font-semibold">Mutia</p>
+                    <p class="text-pink-700">Permilik.</p>
+                </div>
+            </div>
             <!-- Kontak -->
             <div>
-                <p>📞 +123-456-7890</p>
-                <p>📞 +111-222-3333</p>
+                <p>📞 +62 825-5327-0421</p>
                 <p>📧 kostpink@gmail.com</p>
                 <p>📍 Pontianak, Indonesia</p>
             </div>
