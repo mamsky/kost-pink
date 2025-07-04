@@ -4,19 +4,20 @@ include '../../config/db.php';
 
 if(isset($_POST['edit-kamar'])) {
     // Ambil data dari form
-    $id          = $_GET['id'];
+    $id          = $_POST['id'];
     $nomor_kamar = $_POST['nomor_kamar'];
     $tipe        = $_POST['tipe'];
     $fasilitas   = $_POST['fasilitas'];
     $harga       = $_POST['harga'];
     $lantai      = $_POST['lantai'];
-    $status      = 'tersedia';
+    $status      = $_POST['status'];
 
     // Ambil gambar lama dari database
     $getData = $conn->query("SELECT foto FROM kamar WHERE id = '$id'");
     $getImages = $getData->fetch_assoc();
     $gambar_lama = $getImages['foto'];
 
+    $gambar = '';
     // Cek apakah ada file gambar baru yang diupload
     if (isset($_FILES['gambar']) && $_FILES['gambar']['error'] === UPLOAD_ERR_OK) {
         $nama_file   = $_FILES['gambar']['name'];
@@ -50,7 +51,8 @@ if(isset($_POST['edit-kamar'])) {
                 fasilitas='$fasilitas', 
                 harga='$harga', 
                 lantai='$lantai', 
-                foto='$gambar' 
+                foto='$gambar',
+                status='$status'
             WHERE id = $id";
 
     $edit = $conn->query($sql);

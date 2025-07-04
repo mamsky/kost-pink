@@ -24,7 +24,7 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 
                 <?php
-                $getKamar = $conn->query("SELECT * FROM kamar ORDER BY id ASC");
+                $getKamar = $conn->query("SELECT * FROM kamar WHERE status = 'tersedia' ORDER BY id ASC");
 
                 while($kamar = $getKamar->fetch_assoc()) {
                     $harga = number_format($kamar['harga'], 0, ',', '.');

@@ -4,8 +4,9 @@
     require_user();
     // SELECT reservasi.status, kamar.*, tagihan.tagihan FROM reservasi LEFT JOIN kamar ON reservasi.id_kamar = kamar.id LEFT JOIN tagihan ON reservasi.id_user=tagihan.id_user WHERE MONTH(STR_TO_DATE(bulan, '%d-%m-%Y')) = MONTH(CURRENT_DATE()) && reservasi.id_user = 2
     $user_id = $_SESSION['user']['id'];
-    $data = $conn->query("SELECT reservasi.status as rs, kamar.*, tagihan.tagihan FROM reservasi LEFT JOIN kamar ON reservasi.id_kamar = kamar.id LEFT JOIN tagihan ON reservasi.id_user=tagihan.id_user WHERE MONTH(STR_TO_DATE(bulan, '%d-%m-%Y')) = MONTH(CURRENT_DATE()) && reservasi.id_user = $user_id")->fetch_assoc();
-    $tagihan = $data['tagihan'];
+    $query = $conn->query("SELECT reservasi.status as rs, kamar.*, tagihan.tagihan FROM reservasi LEFT JOIN kamar ON reservasi.id_kamar = kamar.id LEFT JOIN tagihan ON reservasi.id_user=tagihan.id_user WHERE MONTH(STR_TO_DATE(bulan, '%d-%m-%Y')) = MONTH(CURRENT_DATE()) && reservasi.id_user = $user_id");
+    $data = $query ? $query->fetch_assoc() : null;
+    $tagihan = isset($data['tagihan']) ? $data['tagihan'] : '0'
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -41,11 +42,12 @@
                     <p class="text-sm text-pink-700 font-medium">Status Reservasi</p>
                     <p
                         class="text-xl font-bold mt-2 <?= $data['rs'] == 'Terkonfirmasi' ? 'text-green-600':' text-red-600' ?>">
-                        <?= $data['rs'] == 'Terkonfirmasi' ? 'Aktif':' Tidak Aktif' ?></p>
+                        <?= $data && $data['rs'] == 'Terkonfirmasi' ? 'Aktif' : 'Tidak Aktif' ?></p>
                 </div>
                 <div class="bg-pink-100 p-4 rounded-lg shadow text-center">
                     <p class="text-sm text-pink-700 font-medium">Nomor Kamar</p>
-                    <p class="text-xl font-bold mt-2"><?= $data['no_kamar']?></p>
+                    <p class="text-xl font-bold mt-2"><?= $data && isset($data['no_kamar']) ? $data['no_kamar'] : '-' ?>
+                    </p>
                 </div>
                 <div class="bg-pink-100 p-4 rounded-lg shadow text-center">
                     <p class="text-sm text-pink-700 font-medium">Tagihan Bulan Ini</p>
@@ -70,9 +72,9 @@
                 <div class="bg-pink-50 border border-pink-100 rounded-lg p-4 shadow">
                     <h3 class="text-pink-700 font-semibold mb-3">🏢 Informasi Kamar</h3>
                     <ul class="text-sm space-y-2">
-                        <li><strong>Tipe:</strong> <?= $data['tipe']?></li>
-                        <li><strong>Lantai:</strong> <?= $data['lantai']?></li>
-                        <li><strong>Status:</strong> <?= $data['status']?></li>
+                        <li><strong>Tipe:</strong> <?= $data && isset($data['tipe']) ? $data['tipe'] : '-' ?></li>
+                        <li><strong>Lantai:</strong> <?= $data && isset($data['lantai']) ? $data['lantai'] : '-' ?></li>
+                        <li><strong>Status:</strong> <?= $data && isset($data['status']) ? $data['status'] : '-' ?></li>
                         <li><strong>Harga/Bulan:</strong> Rp <?= number_format("$tagihan", 0, ",", ".") ?></li>
                     </ul>
                 </div>

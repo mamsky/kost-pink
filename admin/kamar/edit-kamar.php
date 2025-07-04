@@ -21,7 +21,7 @@
 
         <form action="../../controller/admin/edit_kamar.php?id=<?= $data['id'] ?>" method="POST"
             enctype="multipart/form-data" class="bg-white p-6 rounded-lg shadow space-y-4">
-            <input type="text" value="<?= $id?>" hidden>
+            <input type="hidden" value="<?= $id ?>" name="id">
             <div>
                 <label class="block mb-1 font-medium">Nomor Kamar</label>
                 <input type="text" name="nomor_kamar" required class="w-full border border-pink-300 rounded px-3 py-2"
@@ -63,6 +63,15 @@
                 <label class="block mb-1 font-medium">Gambar Kamar</label>
                 <input type="file" name="gambar" value="<?= $data['foto'] ?>"
                     class="w-full border border-pink-300 rounded px-3 py-2" />
+            </div>
+
+            <div>
+                <label class="block mb-1 font-medium">Status</label>
+                <select name="status" required class="w-full border border-pink-300 rounded px-3 py-2">
+                    <option value="<?= $data['status'] ?>" selected hidden><?= $data['status'] ?></option>
+                    <option value="terisi">terisi</option>
+                    <option value="tersedia">tersedia</option>
+                </select>
             </div>
 
             <div class="pt-4">

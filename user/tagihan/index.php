@@ -49,6 +49,13 @@
                         <?php
                             $idUser = $_SESSION['user']['id'];
                             $getData = $conn->query("SELECT * FROM tagihan WHERE id_user = $idUser ");
+                            if($getData->num_rows == 0){
+                                ?>
+                        <tr class="border-b hover:bg-pink-50">
+                            <td class="p-4" colspan="10">Belum ada tagihan</td>
+                        </tr>
+                        <?php
+                            }
                             while($row = $getData->fetch_assoc()){
                                 ?>
                         <tr class="border-b hover:bg-pink-50">
@@ -75,7 +82,7 @@
                                 }else{
                                     ?>
                             <td class="p-4 text-center">
-                                <a href="./bayar.php"
+                                <a href="./bayar.php?id=<?= $row['id'] ?>&bulan=<?= $row['bulan'] ?>&jumlah=<?= $row['tagihan'] ?>&jatuh_tempo=<?= $row['jatuh_tempo'] ?>"
                                     class="bg-pink-500 text-white px-3 py-1 rounded hover:bg-pink-600 text-xs">
                                     Bayar Sekarang
                                 </a>
@@ -89,41 +96,6 @@
                         <?php
                             }
                         ?>
-                        <!-- Tagihan 1 -->
-                        <!-- <tr class="border-b hover:bg-pink-50">
-                            <td class="p-4">Juli 2025</td>
-                            <td class="p-4">Rp 600.000</td>
-                            <td class="p-4 text-yellow-600 font-semibold">Belum Lunas</td>
-                            <td class="p-4">05 Juli 2025</td>
-                            <td class="p-4 text-center">
-                                <a href="./bayar.php"
-                                    class="bg-pink-500 text-white px-3 py-1 rounded hover:bg-pink-600 text-xs">
-                                    Bayar Sekarang
-                                </a>
-                            </td>
-                        </tr> -->
-
-                        <!-- Tagihan 2 -->
-                        <!-- <tr class="border-b hover:bg-pink-50">
-                            <td class="p-4">Juni 2025</td>
-                            <td class="p-4">Rp 600.000</td>
-                            <td class="p-4 text-green-600 font-semibold">Lunas</td>
-                            <td class="p-4">05 Juni 2025</td>
-                            <td class="p-4 text-center">
-                                <span class="text-sm text-gray-400 italic">✔ Sudah Dibayar</span>
-                            </td>
-                        </tr> -->
-
-                        <!-- Tagihan 3 -->
-                        <!-- <tr class="hover:bg-pink-50">
-                            <td class="p-4">Mei 2025</td>
-                            <td class="p-4">Rp 600.000</td>
-                            <td class="p-4 text-green-600 font-semibold">Lunas</td>
-                            <td class="p-4">05 Mei 2025</td>
-                            <td class="p-4 text-center">
-                                <span class="text-sm text-gray-400 italic">✔ Sudah Dibayar</span>
-                            </td>
-                        </tr> -->
                     </tbody>
                 </table>
             </div>

@@ -58,7 +58,7 @@
                         <?php 
                         $no = 1;
                         $id_user = $_SESSION['user']['id'];
-                        $getData = $conn->query("SELECT reservasi.id, reservasi.status as status, reservasi.tgl_masuk, kamar.no_kamar, kamar.tipe, kamar.lantai  FROM reservasi LEFT JOIN kamar ON reservasi.id_kamar = kamar.id GROUP BY id_user = $id_user");
+                        $getData = $conn->query("SELECT reservasi.id, reservasi.status as status, reservasi.tgl_masuk, kamar.no_kamar, kamar.tipe, kamar.lantai  FROM reservasi LEFT JOIN kamar ON reservasi.id_kamar = kamar.id  WHERE reservasi.id_user = $id_user");
                         if($getData->num_rows == 0){
                             ?>
                         <tr class="hover:bg-pink-50">

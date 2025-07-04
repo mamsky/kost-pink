@@ -70,24 +70,21 @@
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-pink-100">
+                        <?php
+                            $query = $conn->query("SELECT auth.name, kamar.no_kamar, reservasi.status, reservasi.tgl_masuk FROM reservasi LEFT JOIN auth ON reservasi.id_user = auth.id LEFT JOIN kamar ON reservasi.id_kamar = kamar.id");
+                            while($row = $query->fetch_assoc()){
+                                ?>
                         <tr>
-                            <td class="px-6 py-4">Sarah Oktavia</td>
-                            <td class="px-6 py-4">A1</td>
-                            <td class="px-6 py-4">01 Juli 2025</td>
-                            <td class="px-6 py-4"><span class="text-green-600 font-semibold">Aktif</span></td>
+                            <td class="px-6 py-4"><?= $row['name'] ?></td>
+                            <td class="px-6 py-4"><?= $row['no_kamar'] ?></td>
+                            <td class="px-6 py-4"><?= $row['tgl_masuk'] ?></td>
+                            <td class="px-6 py-4"><span
+                                    class="<?= $row['status']=='Terkonfirmasi'? 'text-green-600': 'text-yellow-500' ?> font-semibold"><?= $row['status']=='Terkonfirmasi'? 'Aktif': 'Penfing' ?></span>
+                            </td>
                         </tr>
-                        <tr>
-                            <td class="px-6 py-4">Dewi Rahma</td>
-                            <td class="px-6 py-4">B2</td>
-                            <td class="px-6 py-4">30 Juni 2025</td>
-                            <td class="px-6 py-4"><span class="text-green-600 font-semibold">Aktif</span></td>
-                        </tr>
-                        <tr>
-                            <td class="px-6 py-4">Putri Lestari</td>
-                            <td class="px-6 py-4">C3</td>
-                            <td class="px-6 py-4">29 Juni 2025</td>
-                            <td class="px-6 py-4"><span class="text-yellow-500 font-semibold">Pending</span></td>
-                        </tr>
+                        <?php
+                            }
+                        ?>
                     </tbody>
                 </table>
             </div>
