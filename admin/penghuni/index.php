@@ -66,6 +66,9 @@
                         <?php
                             $no = 1;
                             $sql =$conn->query("SELECT auth.name, auth.email, auth.telp, kamar.no_kamar,tagihan.bulan,tagihan.status FROM tagihan LEFT JOIN auth ON auth.id = tagihan.id_user LEFT JOIN reservasi ON reservasi.id_user = tagihan.id_user LEFT JOIN kamar ON reservasi.id_kamar = kamar.id WHERE MONTH(STR_TO_DATE(tagihan.bulan, '%d-%m-%Y')) = MONTH(CURRENT_DATE())");
+                            if($sql->num_rows==0){
+                                echo '<td class="px-6 py-4">Tidak ada penghuni</td>';
+                            }
                             while($row = $sql-> fetch_assoc()){
                                 ?>
                         <tr class="hover:bg-pink-50">
@@ -81,12 +84,6 @@
                                 <span
                                     class="px-2 py-1  <?= $row['status'] == 'lunas'? 'bg-green-100 text-green-700':'bg-red-100 text-red-700' ?> rounded text-xs"><?= $row['status'] == 'lunas'? 'Aktif':'Tidak Aktif' ?></span>
                             </td>
-                            <!-- <td class="px-6 py-4 text-center space-x-2">
-                                <button
-                                    class="bg-yellow-400 text-white px-2 py-1 rounded hover:bg-yellow-500 text-xs">Edit</button>
-                                <button
-                                    class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 text-xs">Hapus</button>
-                            </td> -->
                         </tr>
                         <?php
                             }
@@ -111,12 +108,10 @@
                     <tbody>
 
                         <?php
-                            $sql = $conn->query("SELECT payment.*, tagihan.status FROM payment LEFT JOIN tagihan ON payment.id_reservasi = tagihan.id");
-                            // $sql = $conn->query("
-                            //                 SELECT p.*, t.status 
-                            //                 FROM payment AS p 
-                            //                 LEFT JOIN tagihan AS t ON p.id_reservasi = t.id
-                            //             ");   
+                            $sql = $conn->query("SELECT payment.*, tagihan.status FROM payment LEFT JOIN tagihan ON payment.id_reservasi = tagihan.id"); 
+                            if($sql->num_rows==0){
+                                echo '<td class="px-6 py-4">Tidak ada tagihan penghuni saat ini.</td>';
+                            }
                             while($row = $sql->fetch_assoc()){
                                 $harga = $row['harga'];
                                     ?>

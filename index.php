@@ -22,11 +22,6 @@
             <a href="./public/login.php"
                 class="bg-pink-500 text-white px-4 py-2 rounded hover:bg-pink-600">Login/Reservation</a>
         </div>
-        <!-- <nav class="mt-4">
-            <ul class="flex justify-center space-x-6 text-pink-700">
-                <li><a href="#" class="hover:underline">Home</a></li>
-            </ul>
-        </nav> -->
     </header>
 
 
@@ -37,34 +32,23 @@
                 <div class="swiper-wrapper">
                     <!-- Slide 1 -->
                     <div class="swiper-slide">
-                        <img src="https://www.onassis-hardware.com/wp-content/uploads/2023/10/kamar-hotel.webp"
-                            alt="Room" />
+                        <img src="./assets/images/kamar.jpg" alt="Room" />
                     </div>
                     <div class="swiper-slide">
-                        <img src="https://www.onassis-hardware.com/wp-content/uploads/2023/10/kamar-hotel.webp"
-                            alt="Room" />
+                        <img src="./assets/images/kamar2.jpg" alt="Room" />
                     </div>
                     <div class="swiper-slide">
-                        <img src="https://www.onassis-hardware.com/wp-content/uploads/2023/10/kamar-hotel.webp"
-                            alt="Room" />
+                        <img src="./assets/images/kamar3.jpg" alt="Room" />
                     </div>
                     <div class="swiper-slide">
-                        <img src="https://www.onassis-hardware.com/wp-content/uploads/2023/10/kamar-hotel.webp"
-                            alt="Room" />
+                        <img src="./assets/images/kamar4.jpg" alt="Room" />
                     </div>
                     <div class="swiper-slide">
-                        <img src="https://www.onassis-hardware.com/wp-content/uploads/2023/10/kamar-hotel.webp"
-                            alt="Room" />
+                        <img src="./assets/images/kamar5.jpg" alt="Room" />
                     </div>
                     <!-- Slide 2 -->
                     <div class="swiper-slide">
-                        <img src="https://www.onassis-hardware.com/wp-content/uploads/2023/10/kamar-hotel.webp"
-                            alt="Restaurant" />
-                    </div>
-                    <!-- Slide 3 -->
-                    <div class="swiper-slide">
-                        <img src="https://www.onassis-hardware.com/wp-content/uploads/2023/10/kamar-hotel.webp"
-                            alt="Reception" />
+                        <img src="./assets/images/kamar6.jpg" alt="Restaurant" />
                     </div>
                 </div>
 
@@ -272,7 +256,7 @@
                 <div>
                     <img src="./assets/images/mutia.png" class="mx-auto w-16 h-16 rounded-full mb-2" alt="Testimonial">
                     <p class="font-semibold">Mutia</p>
-                    <p class="text-pink-700">Permilik.</p>
+                    <p class="text-pink-700">Developer.</p>
                 </div>
             </div>
             <!-- Kontak -->
@@ -283,8 +267,7 @@
             </div>
             <!-- Sosial Media -->
             <div>
-                <p><a href="#" class="hover:underline">Facebook</a></p>
-                <p><a href="#" class="hover:underline">Instagram</a></p>
+                <p><a href="https://www.instagram.com/mutiaaa.al/" class="hover:underline">Instagram</a></p>
             </div>
         </div>
 

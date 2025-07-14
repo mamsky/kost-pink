@@ -3,6 +3,7 @@
     
     function tglHelper($tanggal){
     $hariMasuk= $tanggal;
+    
     $jatuhTempo= date('d-m-Y', strtotime($hariMasuk. ' + 30 days'));
     return array(
         'masuk'=> $hariMasuk,

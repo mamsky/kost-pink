@@ -26,18 +26,3 @@
     }
     
 ?>
-
-<!-- [
-            ':id_user' => $payment['id_user'],
-            ':id_reservasi' => $payment['id_reservasi'],
-            ':nama' => $payment['nama'],
-            ':bulan' => $payment['bulan'],
-            ':jatuh_tempo' => $payment['jatuh_tempo'],
-            ':metode' => $payment['metode'],
-            ':harga' => $payment['harga']
-        ] -->
-
-<!-- [
-            ':status'=> $payment['status'],
-            'id_reservasi'=> $payment['id_reservasi']
-        ] -->

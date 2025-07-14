@@ -38,11 +38,11 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                 <div class="bg-pink-100 p-4 rounded-lg shadow">
                     <h3 class="text-lg font-semibold text-pink-800">Total Penghuni</h3>
-                    <p class="text-2xl font-bold mt-2"><?= $PR['penghuni'] ?></p>
+                    <p class="text-2xl font-bold mt-2"><?= $PR['penghuni'] ?? '0' ?></p>
                 </div>
                 <div class="bg-pink-100 p-4 rounded-lg shadow">
                     <h3 class="text-lg font-semibold text-pink-800">Reservasi Hari Ini</h3>
-                    <p class="text-2xl font-bold mt-2"><?= $PR['reservasi'] ?></p>
+                    <p class="text-2xl font-bold mt-2"><?= $PR['reservasi'] ?? '0' ?></p>
                 </div>
                 <div class="bg-pink-100 p-4 rounded-lg shadow">
                     <h3 class="text-lg font-semibold text-pink-800">Pendapatan Bulan Ini</h3>
@@ -51,7 +51,7 @@
                 </div>
                 <div class="bg-pink-100 p-4 rounded-lg shadow">
                     <h3 class="text-lg font-semibold text-pink-800">Kamar Tersedia</h3>
-                    <p class="text-2xl font-bold mt-2"><?= $kamar['tersedia'] ?></p>
+                    <p class="text-2xl font-bold mt-2"><?= $kamar['tersedia'] ?? '0' ?></p>
                 </div>
             </div>
 
@@ -72,6 +72,9 @@
                     <tbody class="divide-y divide-pink-100">
                         <?php
                             $query = $conn->query("SELECT auth.name, kamar.no_kamar, reservasi.status, reservasi.tgl_masuk FROM reservasi LEFT JOIN auth ON reservasi.id_user = auth.id LEFT JOIN kamar ON reservasi.id_kamar = kamar.id");
+                           if($query->num_rows == 0){
+                            echo '<td class="px-6 py-4">Belum ada penghuni baru</td>';
+                           }
                             while($row = $query->fetch_assoc()){
                                 ?>
                         <tr>
@@ -79,7 +82,7 @@
                             <td class="px-6 py-4"><?= $row['no_kamar'] ?></td>
                             <td class="px-6 py-4"><?= $row['tgl_masuk'] ?></td>
                             <td class="px-6 py-4"><span
-                                    class="<?= $row['status']=='Terkonfirmasi'? 'text-green-600': 'text-yellow-500' ?> font-semibold"><?= $row['status']=='Terkonfirmasi'? 'Aktif': 'Penfing' ?></span>
+                                    class="<?= $row['status']=='Terkonfirmasi'? 'text-green-600': 'text-yellow-500' ?> font-semibold"><?= $row['status']=='Terkonfirmasi'? 'Aktif': 'Pending' ?></span>
                             </td>
                         </tr>
                         <?php

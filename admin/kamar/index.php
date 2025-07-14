@@ -44,6 +44,7 @@
                     <tbody class="divide-y divide-pink-100 text-sm">
                         <!-- Row 1 -->
                         <?php 
+                        $nomor = 1;
                             require '../../config/db.php';
                             $sql = "SELECT * FROM kamar";
                             $getData = $conn->query($sql);
@@ -57,7 +58,7 @@
                           while($row = $getData->fetch_assoc()){
                                 ?>
                         <tr class="hover:bg-pink-50">
-                            <td class="px-6 py-4">1</td>
+                            <td class="px-6 py-4"><?= $nomor++ ?></td>
                             <td class="px-6 py-4"><?= $row['no_kamar'] ?></td>
                             <td class="px-6 py-4"><?= $row['tipe'] ?></td>
                             <td class="px-6 py-4"><?= $row['lantai'] ?></td>

@@ -76,18 +76,18 @@
                             <td class="px-6 py-4"><?= $reservasi['tgl_masuk'] ?></td>
                             <td class="px-6 py-4">
                                 <span
-                                    class="px-2 py-1 <?= $reservasi['status'] == 'Menunggu'? 'bg-yellow-100 text-yellow-700' : 'bg-green-100 text-green-700' ?>  rounded text-xs"><?= $reservasi['status'] == 'Menunggu'? 'Menunggu':'Terkonfirmasi' ?></span>
+                                    class="px-2 py-1 <?= $reservasi['status'] != 'Terkonfirmasi'? 'bg-yellow-100 text-yellow-700' : 'bg-green-100 text-green-700' ?>  rounded text-xs"><?= $reservasi['status'] != 'Terkonfirmasi'? $reservasi['status'] :'Terkonfirmasi' ?></span>
                             </td>
                             <td class="px-6 py-4 text-center space-x-2">
                                 <form action="" method="POST"
                                     onsubmit="return confirm('Apakah Anda yakin ingin membatalkan reservasi tanggal <?php echo $reservasi['tgl_masuk'] . ' kode kamar ' . $reservasi['no_kamar']; ?>?')">
                                     <input type="hidden" name="id" value="<?= $reservasi['id']?>" />
                                     <button name="delete-reservasi"
-                                        <?= $reservasi['status'] != 'Menunggu' ? 'disabled' : '' ?>
-                                        class="<?= $reservasi['status'] == 'Menunggu'
+                                        <?= $reservasi['status'] != 'Terkonfirmasi' ? '' : 'disabled'  ?>
+                                        class="<?= $reservasi['status'] != 'Terkonfirmasi'
                                             ? 'bg-red-500 text-white hover:bg-red-600'
                                             : 'bg-gray-300 text-gray-600 cursor-not-allowed' ?> px-2 py-1 rounded text-xs">
-                                        <?= $reservasi['status'] == 'Menunggu' ? 'Batalkan' : 'Tidak Bisa Dibatalkan' ?>
+                                        <?= $reservasi['status'] != 'Terkonfirmasi' ? 'Batalkan' : 'Tidak Bisa Dibatalkan' ?>
                                     </button>
 
                                 </form>

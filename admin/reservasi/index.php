@@ -73,6 +73,9 @@ if(isset($_POST['batalkan'])){
                                     reservasi.tgl_masuk, 
                                     reservasi.id_user, 
                                     reservasi.id_kamar,
+                                    reservasi.durasi,
+                                    reservasi.durasi_terbayar,
+                                    reservasi.images,
                                     reservasi.status, 
                                     auth.name, 
                                     auth.email,
@@ -82,7 +85,9 @@ if(isset($_POST['batalkan'])){
                                 LEFT JOIN auth ON reservasi.id_user = auth.id 
                                 LEFT JOIN kamar ON kamar.id = reservasi.id_kamar
                             ");
-
+                             if($getData->num_rows == 0){
+                            echo '<td class="px-6 py-4">Belum ada reservasi baru</td>';
+                           }
                             while ($row = $getData->fetch_assoc()) {
                                 ?>
                         <tr class="hover:bg-pink-50">
@@ -93,13 +98,13 @@ if(isset($_POST['batalkan'])){
                             <td class="px-6 py-4"><?= htmlspecialchars($row['tgl_masuk']) ?></td>
                             <td class="px-6 py-4">
                                 <span
-                                    class="px-2 py-1 <?= $row['status'] == 'Menunggu'? 'bg-yellow-100 text-yellow-700' : 'bg-green-100 text-green-700' ?>  rounded text-xs"><?= $row['status'] == 'Menunggu'? 'Menunggu':'Terkonfirmasi' ?></span>
+                                    class="px-2 py-1 <?= $row['status'] != 'Terkonfirmasi'? 'bg-yellow-100 text-yellow-700' : 'bg-green-100 text-green-700' ?>  rounded text-xs"><?= $row['status'] != 'Terkonfirmasi'? $row['status'] :'Terkonfirmasi' ?></span>
                             </td>
                             <td class="px-6 py-4 text-center flex gap-2 justify-center">
                                 <?php
                                 if($row['status'] != 'Terkonfirmasi' ){
                                     ?>
-                                <a href="./reservasi_kamar.php?id=<?php echo $row['idR']?>&id_user=<?= $row['id_user'] ?>&harga=<?= $row['harga'] ?>&id_kamar=<?= $row['id_kamar'] ?>"
+                                <a href="./bukti_reservasi.php?id=<?php echo $row['idR']?>&name=<?= $row['name'] ?>&email=<?= $row['email'] ?>&tgl_masuk=<?= $row['tgl_masuk']?>&harga=<?= $row['harga'] ?>&durasi_terbayar=<?= $row['durasi_terbayar']?>&durasi=<?= $row['durasi']?>&id_kamar=<?= $row['id_kamar'] ?>&images=<?= $row['images'] ?>"
                                     class="bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600 text-xs">Konfirmasi</a>
                                 <?php 
                                 }else{
@@ -110,7 +115,8 @@ if(isset($_POST['batalkan'])){
                                 }
                                     
                                 ?>
-                                <form action="" onsubmit="return confirm('Apakah anda ingin mebatalkan reservasi?')">
+                                <form action="../../controller/admin/tolak_reservasi.php"
+                                    onsubmit="return confirm('Apakah anda ingin mebatalkan reservasi?')" method="POST">
                                     <input type="hidden" name="id" value="<?= $row['idR'] ?>">
                                     <button name="batalkan"
                                         class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 text-xs">Batalkan</button>
